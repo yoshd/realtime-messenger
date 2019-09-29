@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package rmsg;
+
+service RealtimeMessenger {
+  // Login
+  rpc Login(LoginReq) returns (LoginRes) {}
+  // Logout
+  rpc Logout(LogoutReq) returns (LogoutRes) {}
+  // CreateRoom
+  rpc CreateRoom(CreateRoomReq) returns (CreateRoomRes) {}
+  // JoinRoom
+  rpc JoinRoom(JoinRoomReq) returns (JoinRoomRes) {}
+  // LeaveRoom
+  rpc LeaveRoom(LeaveRoomReq) returns (LeaveRoomRes) {}
+  // StartMessageStream
+  rpc StartMessageStream(stream Message) returns (stream Message) {}
+}
+
+// LoginReq
+message LoginReq { string user_id = 1; }
+
+// LoginRes
+message LoginRes { bool ok = 1; }
+
+// LogoutReq
+message LogoutReq { string user_id = 1; }
+
+// LogoutRes
+message LogoutRes { bool ok = 1; }
+
+// CreateRoomReq
+message CreateRoomReq {
+  string user_id = 1;
+  string room_id = 2;
+  int64 max_capacity = 3;
+}
+
+// CreateRoomRes
+message CreateRoomRes { bool ok = 1; }
+
+// JoinRoomReq
+message JoinRoomReq {
+  string user_id = 1;
+  string room_id = 2;
+}
+
+// JoinRoomRes
+message JoinRoomRes { bool ok = 1; }
+
+// LeaveRoomReq
+message LeaveRoomReq { string user_id = 1; }
+
+// LeaveRoomRes
+message LeaveRoomRes { bool ok = 1; }
+
+// Message
+message Message {
+  string user_id = 1;
+  string msg = 2;
+}
