@@ -13,8 +13,10 @@ namespace rmsg {
 namespace service {
 class RealtimeMessengerService final : public rmsg::RealtimeMessenger::Service {
  public:
-  RealtimeMessengerService(std::shared_ptr<usecase::outputport::MemoryStore> mstore, std::shared_ptr<usecase::outputport::Messaging> messaging, std::shared_ptr<usecase::interactor::RealtimeMessengerInteractor> messenger) : mstore(mstore), messaging(messaging), interactor(interactor) {
-  }
+  RealtimeMessengerService(
+      std::shared_ptr<usecase::interactor::RealtimeMessengerInteractor>
+          interactor)
+      : interactor(interactor) {}
 
   grpc::Status Login(grpc::ServerContext *context,
                      const rmsg::LoginReq *request,
@@ -43,8 +45,6 @@ class RealtimeMessengerService final : public rmsg::RealtimeMessenger::Service {
   ~RealtimeMessengerService(){};
 
  private:
-  std::shared_ptr<usecase::outputport::MemoryStore> mstore;
-  std::shared_ptr<usecase::outputport::Messaging> messaging;
   std::shared_ptr<usecase::interactor::RealtimeMessengerInteractor> interactor;
 };
 

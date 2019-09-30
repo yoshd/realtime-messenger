@@ -39,11 +39,11 @@ class Client final : public opp::MemoryStore {
   std::unique_ptr<ClientImpl> impl;
 };
 
-static Client& CreateClient(std::string host, int port, uv_loop_t* uv_loop) {
+static Client* CreateClient(std::string host, int port, uv_loop_t* uv_loop) {
   return util::Singleton<Client>::Create(host, port, uv_loop);
 }
 
-static Client& GetClient() { return util::Singleton<Client>::GetInstance(); }
+static Client* GetClient() { return util::Singleton<Client>::GetInstance(); }
 
 }  // namespace mstore
 }  // namespace rmsg

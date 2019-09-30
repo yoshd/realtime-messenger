@@ -29,7 +29,7 @@ class Subscription final : public opp::Subscription {
 class Client final : public opp::Messaging {
  public:
   Client(std::string host, int port, uv_loop_t* uv_loop);
-  ~Client() = default;
+  ~Client();
 
   bool Publish(const std::string& subject, const std::string&) override;
   std::shared_ptr<opp::Subscription> Subscribe(
@@ -43,11 +43,11 @@ class Client final : public opp::Messaging {
   std::unique_ptr<ClientImpl> impl;
 };
 
-static Client& CreateClient(std::string host, int port, uv_loop_t* uv_loop) {
+static Client* CreateClient(std::string host, int port, uv_loop_t* uv_loop) {
   return util::Singleton<Client>::Create(host, port, uv_loop);
 }
 
-static Client& GetClient() { return util::Singleton<Client>::GetInstance(); }
+static Client* GetClient() { return util::Singleton<Client>::GetInstance(); }
 
 }  // namespace messaging
 }  // namespace infrastructure

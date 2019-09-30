@@ -18,8 +18,8 @@ using namespace rmsg::domain;
 
 class RealtimeMessengerInteractor {
  public:
-  RealtimeMessengerInteractor(std::shared_ptr<outputport::MemoryStore> mstore,
-                              std::shared_ptr<outputport::Messaging> messaging)
+  RealtimeMessengerInteractor(outputport::MemoryStore* mstore,
+                              outputport::Messaging* messaging)
       : mstore(mstore), messaging(messaging){};
 
   bool Login(const std::string& user_id) {
@@ -86,18 +86,20 @@ class RealtimeMessengerInteractor {
   template <typename ReaderWriter, typename Message, typename WriteOptions>
   void StartMessageStream(
       std::shared_ptr<entity::User<outputport::Subscription>> user,
-      std::shared_ptr<outputport::Stream<ReaderWriter, Message>> stream) {
+      std::shared_ptr<outputport::Stream<ReaderWriter, Message, WriteOptions>>
+          stream) {
     // Todo: async api
     mstore->GetValue(
         // 雑
-        user->GetId(), [&](std::shared_ptr<outputport::MemoryStore::Result> result) {
+        user->GetId(),
+        [&](std::shared_ptr<outputport::MemoryStore::Result> result) {
           if (result->ok && !result->value.empty()) {
             auto sub = messaging->Subscribe(user->GetId(),
                                             [&](const std::string& message) {
                                               Message msg;
                                               WriteOptions opts;
                                               msg.set_msg(message);
-                                              stream->Write<WriteOptions>(msg, opts);
+                                              stream->Write(msg, opts);
                                             });
             user->SetSubscription(sub);
 
@@ -110,8 +112,8 @@ class RealtimeMessengerInteractor {
   }
 
  private:
-  std::shared_ptr<outputport::MemoryStore> mstore;
-  std::shared_ptr<outputport::Messaging> messaging;
+  outputport::MemoryStore* mstore;
+  outputport::Messaging* messaging;
 };
 
 }  // namespace interactor

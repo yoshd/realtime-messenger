@@ -1,7 +1,7 @@
 #ifndef SINGLETON_H_
 #define SINGLETON_H_
 
-#include <mutex>
+#include <utility>
 
 namespace rmsg {
 namespace util {
@@ -16,17 +16,17 @@ class SingletonFinalizer {
 template <typename T>
 class Singleton final {
  public:
-  static T& GetInstance() { return *instance; }
+  static T* GetInstance() { return instance; }
 
   template <typename... Args>
-  static T& Create(Args&&... args) {
+  static T* Create(Args&&... args) {
     // memo:
     // std::call_onceを使いたかったが渡す関数がtemplateだと実体化できなくてだめぽい
     if (!init_flag) {
       _Create(std::forward<Args>(args)...);
       init_flag = true;
     }
-    return *instance;
+    return instance;
   }
 
  private:

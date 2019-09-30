@@ -5,15 +5,12 @@ namespace rmsg {
 namespace usecase {
 namespace outputport {
 
-template <typename ReaderWriter, typename Message>
+template <typename ReaderWriter, typename Message, typename WriteOptions>
 class Stream {
  public:
   Stream(ReaderWriter* rw) : rw(rw) {}
   bool Read(Message* m) { return rw->Read(m); }
-  template <typename WriteOptions>
-  bool Write(Message m, WriteOptions opts) {
-    return rw->Write(m, opts);
-  }
+  bool Write(Message m, WriteOptions opts) { return rw->Write(m, opts); }
 
  private:
   ReaderWriter* rw;

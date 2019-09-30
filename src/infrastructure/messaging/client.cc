@@ -65,6 +65,25 @@ class Client::ClientImpl {
   natsConnection* nc;
 };
 
+Client::Client(std::string host, int port, uv_loop_t* uv_loop)
+    : impl(std::make_unique<Client::ClientImpl>(host, port, uv_loop)) {
+  impl->Connect();
+}
+
+Client::~Client() {}
+
+bool Client::Publish(const std::string& subject, const std::string&) {
+  return true;
+}
+
+std::shared_ptr<opp::Subscription> Client::Subscribe(
+    const std::string& subject,
+    std::function<void(const std::string&)> on_message) {
+  return nullptr;
+}
+
+void Client::Unsubscribe(std::shared_ptr<opp::Subscription> subscription) {}
+
 }  // namespace messaging
 }  // namespace infrastructure
 }  // namespace rmsg

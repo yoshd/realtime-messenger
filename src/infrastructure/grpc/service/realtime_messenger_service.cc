@@ -19,9 +19,9 @@ grpc::Status RealtimeMessengerService::Login(grpc::ServerContext *context,
   std::cout << "Redisにkey登録する感じの実装する(distributed lock)"
             << std::endl;
 
-  auto &mstore_client = rmsg::mstore::GetClient();
+  auto mstore_client = rmsg::mstore::GetClient();
 
-  mstore_client.SetValue(request->user_id(), "loggedin", f);
+  mstore_client->SetValue(request->user_id(), "loggedin", f);
 
   return grpc::Status::OK;
 }
