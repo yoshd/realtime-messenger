@@ -10,8 +10,7 @@ namespace entity {
 template <class Subscription>
 class User {
  public:
-  User(const std::string& id, std::shared_ptr<Subscription> sub)
-      : id(id), sub(sub) {}
+  User(const std::string& id) : id(id), sub(nullptr) {}
 
   const std::string& GetId() { return id; }
 
