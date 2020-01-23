@@ -1,18 +1,11 @@
 #include "./realtime_messenger_service.h"
 
-#include <iostream>
-
 #include "domain/entity/room.h"
 #include "infrastructure/mstore/mstore_client.h"
 #include "usecase/port/output/streaming/streaming.h"
 
 namespace rmsg {
 namespace service {
-
-void f(const std::shared_ptr<rmsg::mstore::Client::Result> r) {
-  std::cout << "result_value:" << r->value << std::endl;
-  std::cout << "result_status" << r->ok << std::endl;
-}
 
 grpc::Status RealtimeMessengerService::Login(grpc::ServerContext *context,
                                              const rmsg::LoginReq *request,
