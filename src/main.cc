@@ -1,5 +1,4 @@
 #include <chrono>
-#include <iostream>
 #include <thread>
 
 #include <grpc++/grpc++.h>
@@ -17,8 +16,6 @@ void wait(uv_idle_t* handle) {
 }
 
 int main() {
-  std::cout << "Hello, world!" << std::endl;
-
   auto uv_loop = uv_default_loop();
   uv_idle_t idler;
   uv_idle_init(uv_loop, &idler);

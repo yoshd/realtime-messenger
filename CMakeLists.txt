@@ -63,15 +63,3 @@ target_link_libraries(
     uv
     nats_static
 )
-
-add_executable(
-    client
-    ${SRC_DIR}/client/client.cc
-    ${GEN_DIR}/realtime_messenger.grpc.pb.cc
-    ${GEN_DIR}/realtime_messenger.pb.cc
-)
-
-target_link_libraries(
-    client PUBLIC
-    grpc++
-)
